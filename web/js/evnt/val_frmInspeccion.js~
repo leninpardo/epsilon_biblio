@@ -1,0 +1,175 @@
+$(function()
+{   
+        $("#_click").click(function(e){
+e.preventDefault();
+
+$("#emergente").load("index.php?controller=Parcela&action=mostrar", function(){
+			//$.getScript('web/js/funciones.js');
+			//boquea la pantalla
+			$.blockUI({
+				message: $("#emergente"),
+				css:{
+					top: '10%',
+					width: '75%',
+					height: '80%',
+					left: '15%'
+				}
+			}); 
+		});	
+});
+    $("#tabs").tabs();
+    
+    $(".sum_cafe").keyup(function(){
+  
+       c_pr=$("#cafe_produccion").val(); 
+        c_cr=$("#cafe_crecimiento").val(); 
+        if(c_pr==""){c_pr=0;}
+         if(c_cr==""){c_cr=0;}
+         total=parseFloat(c_pr)+parseFloat(c_cr);
+         
+         $("#total_cafe").val(total);
+         //
+            //cafe=$("#total_cafe").val(); 
+            cafe=total;
+        otros=$("#otros_cultivos").val(); 
+         pastos=$("#pastos").val();
+         purma=$("#purma").val();
+          bosque=$("#bosque").val();
+        if(cafe==""){cafe=0;}
+         if(otros==""){otros=0;}
+           if(pastos==""){pastos=0;}
+             if(purma==""){purma=0;}
+               if(bosque==""){bosque=0;}
+         total_a=parseFloat(cafe)+parseFloat(otros)+parseFloat(pastos)+parseFloat(purma)+parseFloat(bosque);
+         
+         $("#total_area").val(total_a);
+    });
+  
+       $(".sum_cultivos").keyup(function(){
+       cafe=$("#total_cafe").val(); 
+        otros=$("#otros_cultivos").val(); 
+         pastos=$("#pastos").val();
+         purma=$("#purma").val();
+          bosque=$("#bosque").val();
+        if(cafe==""){cafe=0;}
+         if(otros==""){otros=0;}
+           if(pastos==""){pastos=0;}
+             if(purma==""){purma=0;}
+               if(bosque==""){bosque=0;}
+         total=parseFloat(cafe)+parseFloat(otros)+parseFloat(pastos)+parseFloat(purma)+parseFloat(bosque);
+         
+         $("#total_area").val(total);
+    });
+     $("#estimacion_q").keyup(function(){
+         estim=$("#estimacion_q").val();
+         if(estim==""){estim=0;}
+          c_pr=$("#cafe_produccion").val(); 
+          if(c_pr==""){c_pr=0;}
+         estim_q_h=parseFloat(estim)/parseFloat(c_pr);
+         estim_kg=parseFloat(estim)*56;
+         $("#estimacion_q_h").val(estim_q_h);
+           $("#estimacion_kg").val(estim_kg);
+     });
+     $("#fecha_inspeccion").datepicker({
+		dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true
+	});
+     $("#inspeccion_certificadora").datepicker({
+		dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true
+	});
+     $("#inscripcion_programa").datepicker({
+		dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true
+	});
+	$("#_form").submit(function()
+	{            
+		bval = true;
+	   // bval = bval && $("#parcela").required();
+            bval = bval && $("#total_cafe").required();
+              bval = bval && $("#total_area").required();
+                 bval = bval && $("#estimacion_q").required();
+                   bval = bval && $("#quimicos").required();
+                     bval = bval && $("#fecha_inspeccion").required();
+		if ( bval ) 
+		{
+			ver_msg(0,"..::Guardando::..")
+			str = $(this).serialize();
+                        
+			$.post('index.php','controller=Inspeccion&action=save&'+str,function(data)
+		    {
+                        	
+                            if(data.rep=="1")
+			    {
+					msg(1,'Datos grabados correctamente','controller=Inspeccion');
+				}
+				if(data.rep=="2")
+				{
+					ver_msg(2,'Datos modificados correctamente');
+				}
+                                if(data.rep=="3")
+				{
+					//ver_msg(2,'Datos modificados correctamente')
+                                        alert(data.msg);
+				}
+                                
+			},'json');
+		}
+        return false;
+	});
+});
+
+
+function atras()
+{
+	paginacion('controller=Inspeccion');
+}
+function imprimir()
+{
+	window.open("fpdf/reporte2.php?tabla=inspeccion");
+}
+//'<?php  echo $val[0]; ?>','<?php  echo utf8_encode($val[1]); ?>',
+//'<?php  echo utf8_encode($val[2]); ?>','<?php  echo utf8_encode($val[3]); ?>',
+//'<?php  echo utf8_encode($val[4]); ?>',
+//'<?php  echo utf8_encode($val[5]); ?>
+function devolver_parcelas(idproductor,productor,comite,comunidad)
+{
+ 
+    $("#idproductor").val(idproductor);
+    $("#productor").val(productor);
+    $("#comite").val(comite);
+   $("#comunidad").val(comunidad);
+   $.get('index.php','controller=Inspeccion&action=getParcelas&id='+idproductor,function(data)
+		    {
+                        	
+                            html="<tr>";
+                        for(i=0;i<data.length;i++)
+                        {
+                       
+                             html+="<td><input type='hidden' name='parcela[]' id='parcela[]' value='"+data[i][0]+"' />"+data[i][2]+"</td>";
+                              html+="<td><input type='text' class='sum_cafe' parcel='"+data[i][0]+"' name='crecimiento"+data[i][0]+"' id='crecimiento"+data[i][0]+"' size='3' style='width:50px'/></td>";
+/*
+                                 html+="<td><input style='width:50px' type='text' class='sum_cafe' parcel='"+data[i][0]+"' id='produccion"+data[i][0]+"'  size='3'/></td>";
+                                 html+="<td><input style='width:50px' type='text'  class='sum_cafe' parcel='"+data[i][0]+"' id='total_cafe"+data[i][0]+"'   size='3'/></td>";
+                                     html+="<td><input style='width:50px' type='text' name='' id=''  size='3'/></td>";
+                                         html+="<td><input style='width:50px' type='text' name='' id=''  size='3'/></td>";
+                                             html+="<td><input style='width:50px' type='text' name='' id=''  size='3'/></td>";
+                                                html+="<td><input style='width:50px' type='text' name='' id=''  size='3'/></td>";*/
+                                                   html+="<td><input style='width:50px' type='text' name='' id=''  size='3' value='"+data[i][6]+"'/></td>";
+                                                   
+                        }
+                        html+="</tr>";
+                    
+                          
+                                           
+					   $("#parcela_data").html(html);
+			},'json');
+      closeWindow();
+   
+}

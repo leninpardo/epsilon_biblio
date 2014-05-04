@@ -1,0 +1,275 @@
+var item=0;
+var quint = 0;
+var xtotal=0;
+$(function()
+{  
+
+$("#buscar_pro").click(function(e){
+e.preventDefault();
+$("#emergente").load("index.php?controller=Prestamo_socio&action=mostrar_socio", function(){
+			$.blockUI({
+				message: $("#emergente"),
+				css:{
+					top: '2%',
+					width: '100%',
+					height: '85%',
+					left: '15%'
+				}
+			}); 
+		});	
+});
+
+$("#tipo").click(function(){
+tipo = $("#tipo").val();
+if(tipo==2){$("#interes").val(0); }
+});
+
+
+
+$("#monto").keyup(function(){
+//if(event.keyCode<48 || event.keyCode>57 ||){event.returnValue = false;}
+});
+
+	$(function() {
+		$( "#fecha_p" ).datepicker({
+			changeMonth: true,
+			changeYear: true,
+			yearRange: "-90:+0"
+		});
+	});		
+
+
+$("#meses").blur(function(){
+fecha = $("#fecha_p").val();
+monto = $("#monto").val();
+tasa = $("#interes").val();
+if(monto == ''){}else {
+if(tasa==''){}else{
+mes = $("#meses").val();
+calcular(fecha,monto,mes,tasa);
+}
+}
+});
+
+	
+$("#interes").blur(function(){
+		bval = true;
+	    bval = bval && $("#fecha_p").required();
+	    bval = bval && $("#monto").required();
+	    bval = bval && $("#meses").required();
+		bval = bval && $("#interes").required();
+		if(bval){
+				fecha = $("#fecha_p").val();
+				monto = $("#monto").val();
+				meses = $("#meses").val();
+				tasa = $("#interes").val();
+		
+		        
+				calcular(fecha,monto,meses,tasa);
+		
+		}
+});
+
+
+$("#_detalle_amortizacion").click(function(e){
+//url = "index.php?controller=Prestamo_socio&action=edit_amortizaciones&id="+$("#idprestamo").val();
+e.preventDefault();
+$("#emergente").load("index.php?controller=Prestamo_socio&action=edit_amortizaciones&id="+$("#idprestamo").val(), function(){
+$.blockUI({
+				message: $("#emergente"),
+				css:{
+					top: '10%',
+					width: '60%',
+					height: '80%',
+					left: '25%'
+				 }
+			}); 
+		});	
+		
+});
+
+delete_amortizacion123 = function(url,id,controller){
+var r = confirm("Realmente Desea Eliminar");
+if (r == true)
+  {  
+    alert(url+'id '+id+' controller'+controller);
+	
+	$.get(url,function(data)
+				{
+					alert(data.msg);
+					if(data.rep=="1")
+					{
+						alert('Amortizacion Eliminada');
+						$.unblockUI({ 
+						onUnblock: function(){
+						$("#emergente").html("");
+						}
+						});	
+					}
+	},'json');
+	
+  }
+
+}
+
+
+	
+	$("#_form").submit(function()
+	{ 
+	    bval = true;
+	    bval = bval && $( "#productor").required();
+	    bval = bval && $( "#tipo").required();
+		bval = bval && $( "#fecha_p").required();
+		bval = bval && $( "#monto").required();
+		bval = bval && $( "#interes").required();
+		bval = bval && $( "#fecha_v").required();
+               bval = bval && $( "#caja").required();
+	    bval = bval && $( "#usuario").required();
+	    
+		if ( bval ) 
+		{
+		
+		
+            fecha_pres = formato_fecha($("#fecha_p").val());
+            fecha_venc = formato_fecha($("#fecha_v").val());
+			ver_msg(0,"..::Guardando::..")
+			  str = $(this).serialize();
+			  str = str +'&fecha_pres='+fecha_pres+'&fecha_venc='+fecha_venc;
+		
+				$.get('index.php','controller=Prestamo_socio&action=save&'+str,function(data)
+				{
+					//alert(data.msg);
+					if(data.rep=="1")
+					{
+						msg(1,'Datos grabados correctamente','controller=Prestamo_socio');
+					}
+					if(data.rep=="2")
+					{
+						ver_msg(2,'Datos modificados correctamente');
+					}
+				  },'json');
+			
+		}
+		return false;
+	});
+});
+
+
+var contd=0;
+function _validar_(e) { 
+
+    tecla = (document.all) ? e.keyCode : e.which; 
+    if (tecla==8) return true; 
+    if (tecla==110) return true;
+    if (tecla==190) return true;
+    if (tecla==46){contd++;
+		if(contd==1){return true;}else{	return false;}
+	}
+    patron =/[0-9\s]/; 
+    te = String.fromCharCode(tecla); 
+    return patron.test(te); 
+}
+
+function formato_fecha(fecha){
+var array=fecha.split("-");
+var fecha = array[2]+'-'+array[1]+'-'+array[0];
+return fecha;
+}
+
+function calcular(fecha, monto, mes, tasa){
+				
+				interes = monto*mes*tasa;
+				interes = parseInt(interes);
+				monto = parseInt(monto);
+				total=monto+interes;
+				
+				if(mes != 0){
+				
+				cuota = total/(mes);
+				cuota*=100;
+				cuota=Math.round(cuota);
+				cuota/=100; // cuota mensual
+				
+				
+				var array=fecha.split("-"); //estraido en u  array los datos dd-mm-aa
+				var fecha = array[2]+'-'+array[1]+'-'+array[0];//paso a aa-mm-dd
+				
+				var Dias=parseInt(30);
+				var multipilcarMes=parseInt(mes);   
+				fecha=fecha.replace("-", "/").replace("-", "/");     
+				fecha= new Date(fecha);  
+				fecha.setDate(fecha.getDate()+(Dias*multipilcarMes)); 
+				var anio=fecha.getFullYear();  
+				var mes= fecha.getMonth()+1;  
+				var dia= fecha.getDate(); 
+					
+		
+				if(mes.toString().length<2){     mes="0".concat(mes);           }  
+				if(dia.toString().length<2){     dia="0".concat(dia);           }    
+				var fechafinal = (dia+"-"+mes+"-"+anio);
+				
+				}else{fechafinal=fecha; cuota = monto;}
+				
+				document.getElementById("fecha_v").value=fechafinal;
+				document.getElementById("deuda").value=total;
+				document.getElementById("cuota").value=cuota;
+}
+
+
+function delete_amortizacion(url){
+var r = confirm("Realmente Desea Eliminar");
+if (r == true)
+  { 
+	$.get("index.php",""+url,function(data)
+				{
+					alert(data.msg);
+					if(data.rep=="1")
+					{
+						$.unblockUI({ 
+						onUnblock: function(){
+						$("#emergente").html("");
+						}
+						});	
+					}
+	},'json');
+	
+  
+
+}
+}
+
+function cancelar()
+{
+   document.getElementById("mensaje").style.visibility="hidden"; 
+   document.getElementById("bloqueador").style.visibility="hidden";
+}
+
+function limpiar()
+{
+	document.getElementById("id_prod").value="";
+	document.getElementById("prod").value="";
+	document.getElementById("precio").value="";
+	document.getElementById("cant").value="";
+}
+
+
+function atras()
+{
+paginacion('controller=Prestamo_socio');
+}
+
+function imprimir()
+{
+window.open("fpdf/reporte.php?tabla=prestamo");
+}
+function imprimir_page(id)
+{
+    url="index.php?controller=Prestamo_socio&action=print_&id="+id;
+    //width=900;height=500;
+  //cuteLittleWindow = window.open(url, "littleWindow","location=no,width="+width+",height="+height+",top=80,left=300,scrollbars=yes");
+  popup(url,850,500);
+}
+	
+
+
+		

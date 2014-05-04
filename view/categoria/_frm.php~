@@ -1,0 +1,60 @@
+<script type="text/javascript" src="web/js/evnt/val_frmComite.js" ></script>
+<script type="text/javascript">
+    $(document).ready(function()
+	{
+	    $("#departamento").change(function()
+		{
+            vv = $(this).val();
+			vv = vv.substring(0,2); 	
+			$("#provincia").empty();
+			$("#distrito").empty();
+            $.get("index.php","controller=sector&action=_provincia&cod="+vv, function(data)
+                { 
+                    $("#provincia").append(data);
+                });
+        });
+		$("#provincia").change(function()
+		{
+            vv = $(this).val();
+			vv = vv.substring(0,4); 	
+            $.get("index.php","controller=sector&action=_distrito&cod="+vv, function(data)
+            { 
+				$("#distrito").empty().append(data);
+            });
+        });
+    });  
+</script>
+<div class='ui-widget-header'>Registro de Comites</div>
+<div id="frmtotal">
+	<div id="msg" ></div>
+	<form id="_form" name="_form" action="" method="GET">
+		<table  width="550" cellspacing="4"cellpadding="0" border="0" >
+			<tr>
+				<td colspan="5">&nbsp;</td>
+			</tr>
+		
+			<tr>
+				<td colspan="3">Nombre Comite:</td>
+				<td>
+                                    <input type="hidden" name="oper" id="oper" value="<?php echo $p;?>"/>
+					<input name="idcomite" id="idcomite" type="hidden" value="<?php echo $obj->idcomite?>"/>
+					<input  type="text"  name="comite" id="comite" size="40" maxlength="100" value="<?php echo $obj->descripcion;?>"/>
+			   </td>
+			</tr>
+			<tr>
+				<td colspan="5">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="5" align="center" >
+					<?php if($p==1){?>
+					<input type="submit" class="btn btn-small" name="grabar" id="grabar" value="registrar"  />
+					<?php }if($p==2){?>
+					<input type="submit" class="btn btn-small" name="actualiza" id="actualiza" value="actualizar"  />
+					<?php }?>
+				<input type="button" name="regresar" id="regresar" value="atras"  onclick="atras();"/>	
+                                        
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

@@ -1,0 +1,428 @@
+$(function()
+{   
+    $("#_click").click(function(e){
+e.preventDefault();
+$("#emergente").load("index.php?controller=Productor&action=mostrar", function(){
+			//$.getScript('web/js/funciones.js');
+			//boquea la pantalla
+			$.blockUI({
+                            //overlayCSS: { backgroundColor: '#00f' }
+				message: $("#emergente"),
+				css:{
+					top: '10%',
+					width: '77%',
+					height: '80%',
+					left: '15%'
+                                       // backgroundColor: '#5d881a'
+				}
+			}); 
+		});	
+});
+    $("#tabs").tabs();
+
+  
+     $("#peso_kg").keyup(function(){
+         peso_kg=$("#peso_kg").val();
+          if(peso_kg==""){
+            peso_kg=0;
+        }
+        tara=$("#tara").val();
+        if(tara=="")
+        {
+            tara=0;
+        }
+        
+         n_sacos=$("#n_sacos").val();
+        if(n_sacos==""){
+            n_sacos=0;
+        }
+       kg_neto=parseFloat(peso_kg)-(parseFloat(n_sacos)*parseFloat(tara));
+       //alert(kg_neto);
+       $("#peso_kg_neto").val(kg_neto); 
+       quintal=kg_neto/56;
+       $("#peso_neto_q").val(quintal);
+         validar_peso(); 
+     });
+     
+      $("#n_sacos").keyup(function(){
+         peso_kg=$("#peso_kg").val();
+        tara=$("#tara").val();
+        if(tara=="")
+        {
+            tara=0;
+        }
+        
+         n_sacos=$("#n_sacos").val();
+        if(peso_kg==""){
+            peso_kg=0;
+        }
+         if(n_sacos==""){
+            n_sacos=0;
+        }
+       kg_neto=parseFloat(peso_kg)-(parseFloat(n_sacos)*parseFloat(tara));
+       //alert(kg_neto);
+       $("#peso_kg_neto").val(kg_neto); 
+       quintal=kg_neto/56;
+       $("#peso_neto_q").val(quintal);
+         validar_peso(); 
+         //  id=$("#idproductor").val();
+    // alert(id);
+ 
+     });
+     $("#tara").keyup(function(){
+         peso_kg=$("#peso_kg").val();
+        tara=$("#tara").val();
+        if(tara=="")
+        {
+            tara=0;
+        }
+        
+         n_sacos=$("#n_sacos").val();
+        if(peso_kg==""){
+            peso_kg=0;
+        }
+         if(n_sacos==""){
+            n_sacos=0;
+        }
+       kg_neto=parseFloat(peso_kg)-(parseFloat(n_sacos)*parseFloat(tara));
+       //alert(kg_neto);
+       $("#peso_kg_neto").val(kg_neto); 
+       quintal=kg_neto/56;
+       $("#peso_neto_q").val(quintal);
+       validar_peso(); 
+     });
+     
+     ///end pesos
+     //init precio
+     $("#precio").keyup(function(){
+        precio=$("#precio").val();
+        q=$("#peso_neto_q").val();
+        vv=parseFloat(precio)*parseFloat(q);
+        $("#valor_venta").val(vv);
+        igv=$("#igv").val();
+       // total=0;
+        total=vv;
+        /*if(igv==0||igv=="")
+        {
+            total=vv;
+        }
+        else{
+           total=(vv*igv)/100 
+        }*/
+        $("#precio_total").val(total);
+     });
+     
+    $("#exp_g").keyup(function(){
+  
+        muestra=$("#muestra").val();
+       cant=$("#exp_g").val();
+          
+          if(cant==""){
+              cant=0;
+              porcentaje=0;
+          }
+          else{
+       porcentaje=(parseFloat(cant)*100)/parseFloat(muestra);
+          }
+    
+       $("#exp_p").val(porcentaje);
+       total_muestra();
+    });
+    
+        $("#sub_g").keyup(function(){
+      
+        muestra=$("#muestra").val();
+       cant=$("#sub_g").val();
+         
+          if(cant==""){
+              cant=0;
+              porcentaje=0;
+          }
+          else{
+       porcentaje=(parseFloat(cant)*100)/parseFloat(muestra);
+          }
+    
+       $("#sub_p").val(porcentaje);
+       total_muestra();
+    });
+    
+     $("#bola_g").keyup(function(){
+      
+        muestra=$("#muestra").val();
+       cant=$("#bola_g").val();
+          if(cant==""){
+              cant=0;
+              porcentaje=0;
+          }
+          else{
+       porcentaje=(parseFloat(cant)*100)/parseFloat(muestra);
+          }
+    
+       $("#bola_p").val(porcentaje);
+       total_muestra();
+    });
+     $("#casc_g").keyup(function(){
+  
+        muestra=$("#muestra").val();
+       cant=$("#casc_g").val();
+        
+          if(cant==""){
+              cant=0;
+              porcentaje=0;
+          }
+          else{
+       porcentaje=(parseFloat(cant)*100)/parseFloat(muestra);
+          }
+    
+       $("#casc_p").val(porcentaje);
+      total_muestra();
+    });
+   
+    
+     $("#agua_g").keyup(function(){
+  
+        muestra=$("#muestra").val();
+       cant=$("#agua_g").val();
+        
+          if(cant==""){
+              cant=0;
+              porcentaje=0;
+          }
+          else{
+       porcentaje=(parseFloat(cant)*100)/parseFloat(muestra);
+          }
+    
+       $("#agua_p").val(porcentaje);
+      total_muestra();
+    });
+	$("#_form").submit(function()
+	{            
+		bval = true;
+                    bval = bval && $( "#productor").required();
+                     bval = bval && $( "#centro_acopio").required();
+                      bval = bval && $( "#contrato").required();
+	    bval = bval && $( "#fecha").required();
+	    bval = bval && $( "#nro_pesada").required();
+		if ( bval ) 
+		{
+		  
+			 
+					ver_msg(0,"..::Guardando::..");
+					  
+					str = $(this).serialize();
+					//alert(str);
+					$.post('index.php','controller=Acopio&action=save&'+str,function(data)
+					{
+					 // alert(data.msg);
+						if(data.rep=="1")
+						{
+							msg(1,'Datos grabados correctamente','controller=Acopio');
+						}
+						if(data.rep=="2")
+						{
+							ver_msg(2,'Datos modificados correctamente');
+						}
+                                                if(data.rep=="3")
+						{
+							//ver_msg(2,'Datos modificados correctamente');
+                                                        alert(data.msg);
+						}
+					},'json');
+			
+		}
+        return false;
+	});
+        
+	$("#fecha").datepicker({
+		dateFormat: 'yy-mm-dd',
+		changeMonth: true,
+		changeYear: true,
+		showButtonPanel: true,
+		yearRange: "-25:+0"
+	});
+});
+ function validar_peso()
+ {
+     
+     id=$("#idproductor").val();
+   $.get('index.php','controller=Acopio&action=getEstimado&id='+id,function(data)
+					{
+					$("#estimacion_kg").val(data.est_kg);
+                                        $("#estimacion_q").val(data.est_q);
+				        if(peso_kg>parseFloat(data.est_kg))
+                                        {
+                                         alert("El Valor Acopiado es mas que el estimado");   
+                                        }
+					},'json');
+ }
+function total_muestra()
+{
+    exp=$("#exp_g").val();
+     if(exp=="")
+    {
+        exp=0;
+    }
+    subp=$("#sub_g").val();
+     if(subp=="")
+    {
+        subp=0;
+    }
+    bola=$("#bola_g").val();
+     if(bola=="")
+    {
+        bola=0;
+    }
+    casc=$("#casc_g").val();
+     if(casc=="")
+    {
+        casc=0;
+    }
+    agua=$("#agua_g").val();
+    if(agua=="")
+    {
+        agua=0;
+    }
+    suma_g=parseFloat(exp)+parseFloat(subp)+parseFloat(bola)+parseFloat(casc)+parseFloat(agua);
+    
+    exp_p=$("#exp_p").val();
+     
+     if(exp_p=="")
+    {
+        exp_p=0;
+    }
+    subp_p=$("#sub_p").val();
+     if(subp_p=="")
+    {
+        subp_p=0;
+    }
+    bola_p=$("#bola_p").val();
+     if(bola_p=="")
+    {
+        bola_p=0;
+    }
+    casc_p=$("#casc_p").val();
+     if(casc_p=="")
+    {
+        casc_p=0;
+    }
+    agua_p=$("#agua_p").val();
+     if(agua_p=="")
+    {
+        agua_p=0;
+    }
+    suma_p=parseFloat(exp_p)+parseFloat(subp_p)+parseFloat(bola_p)+parseFloat(casc_p)+parseFloat(agua_p);
+    //alert(suma_g);
+    $("#total_g").val(suma_g);
+    $("#total_p").val(suma_p);
+}
+function atras()
+{
+	paginacion('controller=Acopio');
+}
+function imprimir()
+{
+	window.open("fpdf/reporte.php?tabla=Acopio");
+}
+xitem=1; xtotal=0; x=0; color="#d8ffb0";
+/*
+function limpiar()
+{
+	document.getElementById("id_cultivo").value="";
+	document.getElementById("cultivo").value="";
+	document.getElementById("id_tipo_compra").value="";
+	document.getElementById("tipo_compra").value="";
+	document.getElementById("kilo").value="";
+	document.getElementById("costo").value="";
+}*/
+
+/*function agregar_compra()
+{
+    id=document.getElementById("id_cultivo").value;
+    cu=document.getElementById("cultivo").value;
+    idtc=document.getElementById("id_tipo_compra").value;
+    tc=document.getElementById("tipo_compra").value;
+    kl=document.getElementById("kilo").value;
+    co=document.getElementById("costo").value;
+	tot=parseFloat(kl)*parseFloat(co);
+	if(cu==""||tc==""||kl==""||co=="")
+    {
+        return 0;
+    }
+	$('#msg-parte').hide();
+	$('#tdigv').show();
+	D=document.getElementById("detalle").innerHTML;
+	HTML="<div id='det"+nro+"'><table width='100%'>",
+    HTML=HTML+"<tr bgcolor='"+color+"'>";
+    HTML=HTML+"<td width='5%'>"+nro+"</td>";nro++;
+    HTML=HTML+"<td width='35%'>"+"<input type='text'name='xcultivo[]' value='"+cu+"' readonly='true' /><input type='hidden' name='codigo[]' id='codigo[]' value='"+id+"'/>"+"</td>";
+	HTML=HTML+"<td width='20%'>"+"<input type='text'name='xtipo_compra[]' value='"+tc+"' readonly='true' size='10' /><input type='hidden' name='xid_tipo_compra[]' id='xid_tipo_compra[]' value='"+idtc+"'/>"+"</td>";
+    HTML=HTML+"<td width='10%'>"+"<input type='text'name='xkilo[]' id='xkilo[]' value='"+kl+"' size='1' readonly='true' />"+"</td>";
+	HTML=HTML+"<td width='10%'>"+"<input type='text'name='xcosto[]' id='xcosto[]' value='"+co+"' size='1' readonly='true' />"+"</td>";
+	HTML=HTML+"<td width='15%'>"+"<input type='text'name='total[]' id='total[]' value='"+tot+"' size='2' readonly='true' />"+"</td>";
+	HTML=HTML+"<td width='5%'>"+"<a href ='javascript:eliminarcu("+nro+")'title='eliminar registro'>[x]</a>"+"</td>";
+    xtotal=xtotal+tot;
+    HTML=HTML+"</tr></table>";
+    document.getElementById("detalle").innerHTML=D + HTML;
+    limpiar();
+    document.getElementById("totalgeneral").innerHTML=xtotal;
+    document.getElementById("totalgeneralx").value=xtotal;
+}*/
+
+function eliminarcu(nro)
+{
+	nro--;
+    if(confirm("Esta seguro que desea eliminar?"))
+    {
+        xtotal=xtotal-tot;
+        document.getElementById("totalgeneral").innerHTML=xtotal;
+		document.getElementById("det"+nro).innerHTML="";
+        document.getElementById("det"+nro).style.display="none";
+		total=total-(parseInt(xarea_cultivo));
+    }
+}
+function ver_igv()
+{
+  if(document.getElementById('nigv').checked)
+  {
+    $('#igv').show();
+	$("#igv").val(18);
+  }else
+  {
+    $('#igv').hide();
+	 $("#igv").val(0);
+  }
+}
+
+function devolver_prod_acopio(id_productor,dni,productor,sexo,status,comite,comunidad)
+{
+ 
+    $("#idproductor").val(id_productor);
+    $("#productor").val(productor);
+    $("#dni").val(dni);
+    $("#sexo").val(sexo);
+    $("#status").val(status);
+    $("#comite").val(comite);
+    $("#comunidad").val(comunidad);
+    
+    $.get("index.php","controller=Acopio&action=getInspeccion&id="+id_productor,function(datos){
+        if(datos.estimacion==null)
+        {
+          $("#estimacion").val(0);   
+          $("#esti").empty().append("sus datos de inspeccion no estan actualizados");
+          $("#esti").css("background","red");
+        }else{
+          $("#estimacion").val(datos.estimacion);   
+        }
+        //
+          if(datos.acopiado==null)
+        {
+          $("#acopiado").val(0);   
+        }else{
+        $("#acopiado").val(datos.acopiado);    
+        }
+    },'json');
+      closeWindow();
+   /* $.post('index.php','controller=Acopio&action=getInspeccion&id=127',function(data)
+					{
+					},'json');*/
+}

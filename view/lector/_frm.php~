@@ -1,0 +1,195 @@
+<script type="text/javascript" src="web/js/evnt/val_frmProductor.js" ></script>
+<div id='breadcrumbs' class="text-center">Registro de Productor</div>
+<div id="page-content">
+    <div class="row-fluid"><div class="span12">
+<div id="frmtotal">
+	<div id="msg" ></div>
+		<form id="_form" name="_form" action="" method="POST" enctype="multipart/form-data" target="fotoim">
+			<input type="hidden" name="controller" value="Productor" />
+			<input type="hidden" name="action" value="save_photo_temp" />
+			<table border="0" cellpadding="5" align="center">
+			<tr>
+			    <td>Comité:</td>
+			    <td>
+				<?php echo $agrupacion;?>
+					<!--Codigo:
+					<input type="text" name="codigo" id="codigo" value="<?php echo $obj->codigo; ?>" size="5" maxlength="20"/>
+				-->
+			    </td>
+			    <td colspan="2" rowspan="5">
+				
+				<div class="fotos_u" id="productorfoto">
+						<?php if ($p==2){?>
+						<img  id="fotoq" width='153px' height='150px' src="view/fotos_productor/<?php echo $obj->foto; ?>.jpg"/>
+						<input name='fotoq1' id="fotoq1" type="hidden" value="<?php echo $obj->foto; ?>" />
+						<?php }?>
+						<iframe id="fotoim" name="fotoim" src=""
+							style="width:153px; height:180px;"
+						frameborder="1" marginheight="0" marginwidth="0"></iframe>
+					</div>
+			    </td>
+			<tr>
+				<td>Comunidad:</td>
+				<td>
+					<?php echo $proyecto; ?>
+					<?php
+						$check="";
+						$check2="";
+						if($p==2)
+						{
+							if ($obj->sexo=="Femenino" ||$obj->sexo=="FEMENINO")
+							{
+								$check='checked="checked"';
+								$check2="";
+							}
+							else
+							{
+								$check2='checked="checked"';
+								$check="";
+							}
+						}
+						else
+						{
+							$check2='checked="checked"';
+							$check="";
+						}
+					?>
+				</td>
+			</tr>
+			<tr>
+			    <td>
+					Sexo: 
+			    </td>
+			    <td>
+				<span style="width: 40px; display: inline-block">
+				    M <input type="radio" id="sexo" name="sexo" value="Masculino" <?php echo $check2;?> />
+				</span>
+				<span style="width: 40px; display: inline-block">
+				    F <input type="radio" id="sexo" name="sexo" value="Femenino" <?php echo $check;?>/> 
+				</span>
+			    </td>
+			</tr>
+			<tr>
+				<td>Nombres:</td>
+				<td>
+					<input type="hidden" name="oper" id="oper" value="<?php echo $p;?>"/>
+                                        <input type="hidden" name="idproductor" id="idproductor" value="<?php echo utf8_decode($obj->idproductor); ?>"/>
+                                        <input type="text" name="nombres" id="nombres" value="<?php echo utf8_encode($obj->nombre); ?>" size="40" maxlength="100"/>
+				</td>
+			</tr>
+			<!--<tr>
+				<td >Apellidos:</td>
+				<td> 
+					<input type="text" name="apellidos" id="apellidos" value="<?php echo $obj->apellidos; ?>" size="40" maxlength="100"/>
+				</td>
+			</tr>-->
+			<tr>
+				<td >DNI:</td>
+				<td> 
+					<input type="text" name="dni" id="dni" value="<?php echo $obj->dni; ?>" size="8" maxlength="8" onkeypress="return permite(event,'num')"/>
+				</td>
+			</tr>
+			<tr>
+			    <td>
+					Estado Civil:
+			    </td>
+			    <td>
+					<?php 
+					$estado=array("SOLTERO","CONVIVIENTE","CASADO","DIVORCIADO","VIUDO");
+                                        echo $obj->estado_civil;
+					?>
+					<select name="estado_civil" id="estado_civil">
+					 <option value="">::Seleccione::</option>
+						<?php 
+                             foreach($estado as $key => $m)
+                             {
+                                 //estado_civil
+							   if($obj->estado_civil==$m)
+							   {
+							     $d=$obj->estado_civil;
+								 
+							     echo "<option value='".$d."' selected='selected'>".$d."</option>";
+							   }else
+							   {
+							 
+                                echo '<option value="'.$m.'">'.$m.'</option>';
+								}
+                              }?>
+					</select>
+				</td>
+				<td>Conyuge:</td>
+				<td> 
+					<input type="text" name="conyuge" id="conyuge" value="<?php echo $obj->conyuge; ?>" size="19" maxlength="200"/>
+				</td>
+			<td>
+			</tr>
+			<tr>
+					<td>Nro. Hijos:</td>
+			<td>
+					<input type="text" name="nro_hijos" id="nro_hijos" value="<?php echo $obj->nro_hijos; ?>" size="2" maxlength="2" onkeypress="return permite(event,'num')"/>
+				</td>
+				<td>Domicilio:</td>
+				<td> <input type="text" name="direccion" id="direccion" value="<?php echo $obj->domicilio; ?>" size="40" maxlength="200"/>
+				</td>
+			</tr>
+			<tr>
+				<td>Telefono:</td>
+				<td>
+					<input type="text" name="telef" id="telef" value="<?php echo $obj->telefono; ?>" size="11" maxlength="100" onkeypress="return permite(event,'num')"/>
+				</td>
+				<td>
+					Fecha_nac:
+				</td>
+				<td>
+					<input name="fecha_nacimiento" id="fecha_nacimiento" value="<?php echo $obj->fecha_nac; ?>" size="10" maxlength="20">
+				</td>
+			</tr>	
+                        <tr>
+                            <td>Status<?php echo $obj->status;?></td>
+                            <td><select id="status" name="status">
+                             <option value="">::SELECCIONE::</option>
+                                    <option <?php if($obj->status=='fto' || $obj->status=='FTO' ){echo "selected";} ?> value="fto">fto</option>
+                                     <option <?php if($obj->status=='t3' || $obj->status=='T3' ){echo "selected";} ?>value="T3">T3</option>
+                                      <option <?php if($obj->status=='t2' || $obj->status=='T2' ){echo "selected";} ?> value="T2">T2</option>
+                                       <option <?php if($obj->status=='t1' || $obj->status=='T1' ){echo "selected";} ?> value="T1">T1</option>
+                                      <option <?php if($obj->status=='nuevos' || $obj->status=='NUEVOS' ){echo "selected ";} ?> value="nuevos">Nuevo</option>
+                                </select>
+                            </td>
+                        </tr>
+			<tr>
+				<td>Imagen:</td>
+				<td colspan="3">
+				<span class="button green fileinput-button"> <span>Add foto...</span>
+					<input type="file" name="archivo" id="archivo" onchange="uploadImage();">
+				</td>
+			</tr>
+			<tr>
+				<td>Estado: </td>
+				<?php
+					if( $obj->estado==1){$check="checked='checked'";}
+					else {$check="";}
+				?>
+				<td>
+				    <input style="margin-top: -10px" type="checkbox" <?php echo $check;?> name="estado" id="estado"/>
+				</td>
+		        </tr>
+			<tr>
+			    <td colspan="4" align="center" >
+				    <?php if($p==1){?>
+				    <input type="submit" class="btn btn-small" name="grabar" id="grabar" value="Registrar"  />
+				    <?php }if($p==2){?>
+				    <input type="submit" name="grabar" class="btn btn-small" id="grabar" value="Actualizar"  />
+				    <?php }?>
+				    <input type="button" name="regresar" class="btn btn-small" id="regresar" value="Atras"  onclick="atras();"/>							
+
+                            </td>
+			</tr>
+		</table>
+	</form>
+</div><!-- end for frm busqueda-->
+</div><!-- end for frm busqueda-->
+</div><!-- end for frm busqueda-->
+</div><!-- end for frm busqueda-->
+                                   
+				<!-- end for center-->
+			 
