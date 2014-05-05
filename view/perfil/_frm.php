@@ -30,12 +30,12 @@
 			             <tr>
 			               <td colspan="5" align="center" >
 						      <?php if($p==1){?>
-                               <label class='uiButton uiButtonConfirm'><input type="submit" name="grabar" id="grabar" value="registrar"  /></label>
+<input class="btn btn-small" type="submit" name="grabar" id="grabar" value="registrar"  /></label>
 							   
 						    <?php }if($p==2){?>
-							<label class='uiButton uiButtonConfirm'> <input type="submit" name="actualiza" id="actualiza" value="actualizar"  /></label>
+ <input class="btn btn-small" type="submit" name="actualiza" id="actualiza" value="actualizar"  /></label>
 							 <?php }?>
-                           <label class='uiButton uiButtonConfirm'> <input type="button" name="regresar" id="regresar" value="atras"  onclick="atras();"/></label>							
+                        <input class="btn btn-small" type="button" name="regresar" id="regresar" value="atras"  onclick="atras();"/></label>							
 							</td>
                    </tr>
       </table>

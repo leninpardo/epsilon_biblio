@@ -19,8 +19,7 @@
 		  
 		  </iframe></div></td>
 
-  </tr>
-  <tr>
+ 
     <td>Nombres:</td>
     <td><input type="hidden" name="oper" id="oper" value="<?php echo $p;?>"/>
 						<input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $obj->idusuario; ?>"/>
@@ -29,9 +28,7 @@
   <tr>
     <td >Profesi&oacute;n:</td>
     <td> <input type="text" name="profesion" id="profesion" value="<?php echo $obj->profesion; ?>" size="40" maxlength="100"/></td>
-  </tr>
-
-                <tr>
+ 
 					<td width="128">Domicilio:</td>
 					<td > <input type="text" name="usuario_direccion" id="usuario_direccion" value="<?php echo $obj->domicilio; ?>" size="40" maxlength="100"/>
 					</td>
@@ -40,7 +37,7 @@
 					<td >Telefono:</td>
 					<td >
 						<input type="text" name="usuario_telefono" id="usuario_telefono" value="<?php echo $obj->telefono; ?>" size="13" maxlength="100" onkeypress="return permite(event,'num')"/>
-						DNI :<input  type="text"  name="usuario_numdoc" id="usuario_numdoc" size="13" maxlength="8" value="<?php echo $obj->dni;?>" onkeypress="return permite(event,'num')"/>
+                                        </td><td>DNI :</td><td><input  type="text"  name="usuario_numdoc" id="usuario_numdoc" size="13" maxlength="8" value="<?php echo $obj->dni;?>" onkeypress="return permite(event,'num')"/>
 					</td>
 				</tr>
 				
@@ -49,7 +46,7 @@
 					<td>
 					<?php $disbled='';if($p==2){$disbled="";}?>
 						<input  type="text"  name="usuario_nick" id="usuario_nick" size="13" maxlength="13" value="<?php echo $obj->usuario;?>" <?php echo $disbled ?>/>  <!--onkeydown="javascript:validarU();"-->
-						Clave:<input  type="password" name="usuario_password" id="usuario_password" size="13" maxlength="13"  onkeydown="javascript:validar();"/>
+						</td><td>Clave:</td><td><input  type="password" name="usuario_password" id="usuario_password" size="13" maxlength="13"  onkeydown="javascript:validar();"/>
 					</td>
 					<td>
 						<div id="resp"></div>
@@ -60,8 +57,7 @@
 				<td>fecha_nac</td>
 				<td><input name="usuario_fechanac" id="usuario_fechanac" value="<?php echo $obj->fecha_nacimiento; ?>" size="20" maxlength="20">
 				</td>
-				</tr>
-				<tr>
+				
 				<td>seleccione</td>
 				<td>
                   	<?php $disbleded='';if($p==2){$disbleded="disabled='disabled'";}?>
