@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<title> Software de Gestion Educativo::Epsilon biblio::</title>
+		<title> Software de Gestion Biblioteca::Epsilon biblio::</title>
 		<link rel="stylesheet" type="text/css" href="web/themes/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="web/themes/css/bootstrap-responsive.min.css" />
 		<link rel="stylesheet" type="text/css" href="web/themes/font-awesome/css/font-awesome.min.css" />
@@ -24,7 +24,8 @@
                     <a href="javascript:" class="brand">
                         <small>
                             <i class="icon-unlock-alt"></i>
-                            Modulo educativo de gestion bibliotecaria "EPSILON-biblio"
+                            Modulo educativo de gestion bibliotecaria 
+                          
                         </small>
                     </a><!--/.brand-->
                     
@@ -69,11 +70,14 @@
         </div>          
                     </div>
                         </div>
+            <div>
+                 <center> <img src="web/images/banner.jpg"></center>
+            </div>
         </div>
 		<center>
 			<div id="foot">
 				<div class="footer fsm fwn fcg ">
-                                Derechos Reservados &copy;EPSILON-biblio 2014- <?php echo date('Y'); ?>
+                                Derechos Reservados &copy; insituto <?php echo date('Y'); ?>
 				  
 			   </div>
 			</div>

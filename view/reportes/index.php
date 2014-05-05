@@ -22,8 +22,6 @@
                             <legend>Reportes</legend>
                             <input type="button" class="btn btn-small" name="ir" id="ir" value="aceptar"/>
                                     <input type="button" class="btn btn-small" name="regresar" id="regresar" value="atras"  onclick="atras();"/>
-                        
-                    <a id="record" class="btn btn-small"  title="record de socios" >Record de entrega de cafe de socios</a>
                          </fieldset>
                     </div>
                     </div>

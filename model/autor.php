@@ -6,8 +6,8 @@ class autor extends Main
     {
 		if($P['idautor']==null)
 		{    
-                    
-			$sql =("insert into autor values(".$this->max_id("autor").",:p1,:p2,1)");
+                    $id=$this->max_id("autor");
+			$sql =("insert into autor values(".$id.",:p1,:p2,1)");
 			$stmt =$this->db->prepare($sql);
 			try
 			{
@@ -19,7 +19,7 @@ class autor extends Main
                 //$stmt->bindValue(':p4',$P['distrito'], PDO::PARAM_STR);
                 $stmt->execute();
                 $this->db->commit();
-				$resp = array('rep'=>'1','str'=>'Ok');
+				$resp = array('rep'=>'1','id'=>$id,'autor'=>$P['nombre'],'nacionalidad'=>$P['nacionalidad']);
 				return $resp;
 			}
 			catch(PDOException $e) 

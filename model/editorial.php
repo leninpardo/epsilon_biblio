@@ -6,8 +6,8 @@ class editorial extends Main
     {
 		if($P['ideditorial']==null)
 		{    
-                    
-			$sql =("insert into editorial values(".$this->max_id("editorial").",:p1,:p2,1)");
+                    $id=$this->max_id("editorial");
+			$sql =("insert into editorial values(".$id.",:p1,:p2,1)");
 			$stmt =$this->db->prepare($sql);
 			try
 			{
@@ -19,7 +19,7 @@ class editorial extends Main
                 //$stmt->bindValue(':p4',$P['distrito'], PDO::PARAM_STR);
                 $stmt->execute();
                 $this->db->commit();
-				$resp = array('rep'=>'1','str'=>'Ok');
+				$resp = array('rep'=>'1','id'=>$id,'editorial'=>$P['nombre']);
 				return $resp;
 			}
 			catch(PDOException $e) 

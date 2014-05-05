@@ -217,9 +217,9 @@ class lector extends Main
         return $stmt->fetchObject();
     }
 	
-	function deleteproductor($id)
+	function delete($id)
     {
-		$stmt1 = $this->db->prepare("SELECT imagen FROM productor WHERE idproductor = :id");
+		$stmt1 = $this->db->prepare("SELECT fotografia FROM lector WHERE idlector = :id");
 		$stmt1->bindValue(':id', $id , PDO::PARAM_STR);
         $stmt1->execute();
 		$set = $stmt1->fetchAll();
@@ -229,38 +229,34 @@ class lector extends Main
 		}
 		$c=$c.'.jpg';
 		  unlink("view/fotos_lector/". basename($c));
-		$stmt = $this->db->prepare("delete from productor WHERE idproductor = :id");
+		$stmt = $this->db->prepare("update lector set estado=0  WHERE idlector = :id");
         $stmt->bindValue(':id', $id , PDO::PARAM_INT);
 		$res=$stmt->execute();
 		return $res;
     }
 	
-	function _list($query , $p ) 
-	{
-		$stmt = $this->db->prepare("select * FROM sv_detalle_cultivo where  cast( id_det_cultivo as char(10))
-            like :query or productor like :query or nombre_previo like :query");
-        $stmt->bindValue(':query', $query , PDO::PARAM_STR);
-        $stmt->execute();
-        return $stmt->fetchObject();
-        $data['total'] = $this->getTotal( $stmt, $stmt->bindValue );
-        $data['rows'] =  $this->getRow($stmt, $stmt->bindValue , $p );
-        $data['rowspag'] =  $this->getRowPag($data['total'], $p );
-		return $data;
-    }
+
 	function save_ext($P)
 	{
-	   $sql =$this->Query("sp_productor_ext(:p1,:p2,:p3)");
+	   $sql =("insert into lector (idlector,nombre,dni,direccion,telefono,tipo,estado,fotografia,sexo) 
+                                    values(:p1,:p2,:p3,:p4,:p5,:p6,:p7,:p8,:p9)");
 				$stmt =$this->db->prepare($sql);
 				try
 				{
 					$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 					$this->db->beginTransaction();
-					$stmt->bindValue(':p1',$P['dni'], PDO::	PARAM_STR);
-					$stmt->bindValue(':p2',$P['nombres'], PDO::PARAM_STR);
-					$stmt->bindValue(':p3',$P['apellidos'], PDO::PARAM_STR);
-					$stmt->execute();
+                                        $stmt->bindValue(':p1',$id= $this->max_id("lector"), PDO::PARAM_INT);
+					$stmt->bindValue(':p2',$P['nombres'], PDO::	PARAM_STR);
+					$stmt->bindValue(':p3',$P['dni'], PDO::PARAM_STR);
+					$stmt->bindValue(':p4',$P['direccion'], PDO::PARAM_STR);
+					$stmt->bindValue(':p5',$P['telef'], PDO::PARAM_STR);
+					$stmt->bindValue(':p6',$P['tipo'], PDO::PARAM_STR);
+					$stmt->bindValue(':p7',1, PDO::PARAM_INT);
+					$stmt->bindValue(':p8',"foto", PDO::PARAM_STR);
+					$stmt->bindValue(':p9',$P['sexo'], PDO::PARAM_STR);
+                                        $stmt->execute();
 					$this->db->commit();
-					$resp = array('rep'=>'1','str'=>'Ok');
+					$resp = array('rep'=>'1','id'=>$id,'nombre'=>$P['nombres']);
 					return $resp;
 				}
 				catch(PDOException $e) 

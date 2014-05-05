@@ -22,7 +22,7 @@ $("#emergente").load("index.php?controller=Prestamo&action=mostrar_lector", func
 });
 $("#add_lector").click(function(e){
 e.preventDefault();
-$("#emergente").load("index.php?controller=Lector&action=create", function(){
+$("#emergente").load("index.php?controller=Lector&action=create_extend", function(){
 			$.blockUI({
 				message: $("#emergente"),
 				css:{

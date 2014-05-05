@@ -67,7 +67,24 @@ public function save_photo_temp()
 		else
 		{
 			echo "<script>alert('no tiene permiso para insertar');
-			window.location='index.php?controller=productor';</script>";
+			window.location='index.php?controller=Lector';</script>";
+		}
+	}
+		public function create_extend()
+	{
+		if($_SESSION['insertar']==1)
+		{
+			$data=array();
+                        $data['p']=1;
+			$view = new View();
+			$view->setData($data);
+			$view->setTemplate('view/lector/_frm_extend.php');
+			echo $view->renderPartial();
+		}
+		else
+		{
+			echo "<script>alert('no tiene permiso para insertar');
+			window.location='index.php?controller=Lector';</script>";
 		}
 	}
 	
@@ -90,7 +107,7 @@ public function save_photo_temp()
 		{
 			echo 
 			"<script>alert('no tiene permiso para editar');
-			window.location='index.php?controller=productor';</script>";
+			window.location='index.php?controller=Lector';</script>";
 		}	
 	}
 	
@@ -115,128 +132,20 @@ public function save_photo_temp()
 	{
 		$obj = new lector();
                 print_r(json_encode($obj->save($_GET)));
-                /*$P=$_GET;
-                if($P['idproductor']=="")
-		{ 
-    
-                    
-                   if(isset($P['estado']) && $P['estado']== "on"){$estado="1";}else{$estado="0";}
-			$Photo = $P['dni'].date('dmYhms');
-			$foo = new Upload($P['foto']);// nombre del objeto file 
-			if ($foo->uploaded) 
-			{   
-				$foo->file_new_name_body = $Photo;// nombre de la imagen...
-				$foo->image_resize = false; // autoriza que si se redimensione
-				//$foo->image_convert = jpg; // formato a convertir
-				$foo->image_x = 153; // Tama�o en pixeles - Ancho
-				$foo->image_y = 180; // Tama�o en pixeles - Alto
-				$foo->Process('view/fotos_productor/'); // Carpeta donde se va grabar la imagen
-				if ($foo->processed) 
-				{ 
-					if($P['flag']==0){
-					$foo-> clean();
-				   }
-					$Upload=true;
-				} 
-				else 
-				{
-					$Upload=false;
-				}
-			}
-			if($Upload)
-			{
-                           		$fecha=$P['fecha_nacimiento'];
-				if(isset($P['estado']) && $P['estado']== "on"){$estado="1";}else{$estado="0";}
-                                $r=$obj->get_enviar("usp_productor", array(1,$P['idcomite'],$P['dni'],$P['nombres'],
-                                    $P['estado_civil'],$P['conyuge'],$P['nro_hijos'],$P['direccion'],
-                                    $P['status'],$Photo,$fecha,$P['telef'],$estado,$P['sexo'],$P['idcomunidad'],0));
-                                if($r[1]=="")
-                                {
-                                    $resp = array('rep'=>'1','str'=>'Ok');
-                                }
-                         else {
-                          $resp=array('rep'=>"3",'msg'=>'no se pudo realizar la accion de insertar : '.$r[1]);
-                            }
-		print_r(json_encode($resp)); 
-                        }
-                }else {
-                    
-                    
-                   if(isset($P['estado']) && $P['estado']== "on"){$estado="1";}else{$estado="0";}
-			if($P['band']==0)
-			{
-				 $Photo=$P['foto'];
-				
-                    $Upload=true;				
-			}else
-			{
-				
-				if (file_exists($P['fotoq'])) 
-				{
-					unlink($P['fotoq']);
-					//return "hola";
-				}
-				
-				$Photo = $P['dni'].date('dmYhms');
-				$foo = new Upload($P['foto']);// nombre del objeto file 
-				if ($foo->uploaded) 
-				{   
-					$foo->file_new_name_body = $Photo;// nombre de la imagen...
-					$foo->image_resize = false; // autoriza que si se redimensione
-					//$foo->image_convert = jpg; // formato a convertir
-					$foo->image_x = 153; // Tama�o en pixeles - Ancho
-					$foo->image_y = 180; // Tama�o en pixeles - Alto
-					$foo->Process('view/fotos_productor/'); // Carpeta donde se va grabar la imagen
-					if ($foo->processed) 
-					{ 
-						$foo-> clean();
-						$Upload=true;
-					} 
-					else 
-					{
-						$Upload=false;
-					}
-				}
-			}
-			
-			if($Upload)
-                        {
-                           		$fecha=$P['fecha_nacimiento'];
-				if(isset($P['estado']) && $P['estado']== "on"){$estado="1";}else{$estado="0";}
-                                $r=$obj->get_enviar("usp_productor", array(2,$P['idcomite'],$P['dni'],$P['nombres'],
-                                    $P['estado_civil'],$P['conyuge'],$P['nro_hijos'],$P['direccion'],
-                                    $P['status'],$Photo,$fecha,$P['telef'],$estado,$P['sexo'],$P['idcomunidad'],$P['idproductor']));
-                                if($r[1]=="")
-                                {
-                                    $resp = array('rep'=>'2','str'=>'Ok');
-                                }
-                         else {
-                          $resp=array('res'=>"3",'msg'=>'no se pudo realizar la accion de insertar : '.$r[1]);
-                            }
-		print_r(json_encode($resp)); 
-                        } 
-                        
-                }*/
+               
         }
-	/*public function save_ext()
+	public function save_extend()
 	{
-	   $obj = new productor();
-		print_r(json_encode($obj->save_ext($_POST)));
+	   $obj = new lector();
+		print_r(json_encode($obj->save_ext($_GET)));
 	}
-	public function ver_ext()
-	{
-	  $obj = new productor();
-	  $obj=$obj->ver_ext($_POST['dni']);
-	  $prod=$obj->nombres." ".$obj->apellidos;
-	  $resp = array('id_productor'=>$obj->id_productor,'productor'=>$prod);
-	  print_r(json_encode($resp));
-	}*/
+	
 	public function _delete()
     { 
 		if($_SESSION['delete']==1)
 		{
-			$obj = new productor();
-			$c=$obj->deleteproductor($_GET['id']);
+			$obj = new lector();
+			$c=$obj->delete($_GET['id']);
 			if ($c){echo json_encode(array('rep'=>'1','msg'=>'ELIMINADO'));} 
 			else{echo json_encode(array('rep'=>'2','msg'=>'.::no se pudo eliminar::..'));}
 		}
@@ -271,137 +180,6 @@ public function save_photo_temp()
        
         
     }	
-/*
-	
-	public function mostrar_p()
-    {
-        if (!isset($_GET['p'])){$_GET['p']=1;}
-        if(!isset($_GET['q'])){$_GET['q']="";}
-		if(!isset($_GET['order'])){$_GET['order']="";}
-        $obj = new productor();
-        $data = array();
-		$cabecera=$obj->getHead('v_acopio');
-		$data['cabecera']=$cabecera;
-        $data['data'] = $obj->index_P($_GET['q'],$_GET['p'],$cabecera,"v_acopio",$_GET['order']);
-		$data['rows']=$data['data']['rows'];
-        $data['query'] = $_GET['q'];
-        $data['pag'] = $this->Pagination_l(array('rows'=>$data['data']['rowspag'],'url'=>'controller=productor&action=mostrar_p','query'=>$_GET['q']));
-        $view = new View();
-        $view->setData($data);
-        $view->setTemplate('view/productor/_lista_acopio.php');
-        $view->setLayout('template/listas.php');
-        $view->render();
-    }
-	
-	public function mostrar_p_s()
-    {
-        if (!isset($_GET['p'])){$_GET['p']=1;}
-        if(!isset($_GET['q'])){$_GET['q']="";}
-		if(!isset($_GET['order'])){$_GET['order']="";}
-        $obj = new productor();
-        $data = array();
-		$cabecera=$obj->getHead('sv_seleccion');
-		$data['cabecera']=array("cod","productor","tipo de compra ","stock");
-        $data['data'] = $obj->index_P($_GET['q'],$_GET['p'],$cabecera,"sv_seleccion",$_GET['order']);
-		$data['rows']=$data['data']['rows'];
-        $data['query'] = $_GET['q'];
-        $data['pag'] = $this->Pagination_l(array('rows'=>$data['data']['rowspag'],'url'=>'controller=productor&action=mostrar_p_s','query'=>$_GET['q']));
-        $view = new View();
-        $view->setData($data);
-        $view->setTemplate('view/productor/_lista_seleccion.php');
-        $view->setLayout('template/listas.php');
-        $view->render();
-    }
-	
-	public function mostrar_p_d()
-    {
-        if (!isset($_GET['p'])){$_GET['p']=1;}
-        if(!isset($_GET['q'])){$_GET['q']="";}
-		if(!isset($_GET['order'])){$_GET['order']="";}
-        $obj = new productor();
-        $data = array();
-		$cabecera=$obj->getHead('sv_secado_capsula');
-		$data['cabecera']=$cabecera;
-        $data['data'] = $obj->index_P($_GET['q'],$_GET['p'],$cabecera,"sv_secado_capsula",$_GET['order']);
-		$data['rows']=$data['data']['rows'];
-        $data['query'] = $_GET['q'];
-        $data['pag'] = $this->Pagination_l(array('rows'=>$data['data']['rowspag'],'url'=>'controller=productor&action=mostrar_p_d','query'=>$_GET['q']));
-        $view = new View();
-        $view->setData($data);
-        $view->setTemplate('view/productor/_lista_secado.php');
-        $view->setLayout('template/listas.php');
-        $view->render();
-    }
-	
-	public function mostrar_p_pd()
-    {
-        if (!isset($_GET['p'])){$_GET['p']=1;}
-        if(!isset($_GET['q'])){$_GET['q']="";}
-		if(!isset($_GET['order'])){$_GET['order']="";}
-        $obj = new productor();
-        $data = array();
-		$cabecera=$obj->getHead('sv_productor_destestado');
-		$data['cabecera']=$cabecera;
-        $data['data'] = $obj->index_P($_GET['q'],$_GET['p'],$cabecera,"sv_productor_destestado",$_GET['order']);
-		$data['rows']=$data['data']['rows'];
-        $data['query'] = $_GET['q'];
-        $data['pag'] = $this->Pagination_l(array('rows'=>$data['data']['rowspag'],'url'=>'controller=productor&action=mostrar_p_pd','query'=>$_GET['q']));
-        $view = new View();
-        $view->setData($data);
-        $view->setTemplate('view/productor/_lista_prensado.php');
-        $view->setLayout('template/listas.php');
-        $view->render();
-    }
-	
-	public function mostrar_p_dt()
-    {
-        if (!isset($_GET['p'])){$_GET['p']=1;}
-        if(!isset($_GET['q'])){$_GET['q']="";}
-		if(!isset($_GET['order'])){$_GET['order']="";}
-        $obj = new productor();
-        $data = array();
-		$cabecera=$obj->getHead('v_destestado_grano');
-		$data['cabecera']=$cabecera;
-        $data['data'] = $obj->index_P($_GET['q'],$_GET['p'],$cabecera,"v_destestado_grano",$_GET['order']);
-		$data['rows']=$data['data']['rows'];
-        $data['query'] = $_GET['q'];
-        $data['pag'] = $this->Pagination_l(array('rows'=>$data['data']['rowspag'],'url'=>'controller=productor&action=mostrar_p_dt','query'=>$_GET['q']));
-        $view = new View();
-        $view->setData($data);
-        $view->setTemplate('view/productor/_lista_destestado.php');
-        $view->setLayout('template/listas.php');
-        $view->render();
-    }
-	
-	public function mostrar_prefiltrado()
-    {
-        if (!isset($_GET['p'])){$_GET['p']=1;}
-        if(!isset($_GET['q'])){$_GET['q']="";}
-		if(!isset($_GET['order'])){$_GET['order']="";}
-        $obj = new productor();
-        $data = array();
-		$cabecera=$obj->getHead('sv_productor_prefiltrado');
-		$data['cabecera']=$cabecera;
-        $data['data'] = $obj->index_P($_GET['q'],$_GET['p'],$cabecera,"sv_productor_prefiltrado",$_GET['order']);
-		$data['rows']=$data['data']['rows'];
-        $data['query'] = $_GET['q'];
-        $data['pag'] = $this->Pagination_l(array('rows'=>$data['data']['rowspag'],'url'=>'controller=productor&action=mostrar_prefiltrado','query'=>$_GET['q']));
-        $view = new View();
-        $view->setData($data);
-        $view->setTemplate('view/productor/_lista_prefiltrado.php');
-        $view->setLayout('template/listas.php');
-        $view->render();
-    }*/
-          	public function trazabilidad()
-    {
-			$data = array();
-		
-                        //$obj=new reporte();
-			$view = new View();
-			$view->setData($data);
-			$view->setTemplate('view/productor/trazabilidad.php');
-			echo $view->renderPartial();
-		
-    }
+  
 }
 ?>

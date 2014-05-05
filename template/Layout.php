@@ -53,7 +53,8 @@
 					<a href="#" class="brand">
 						<small>
 							<i class="icon-unlock-alt"></i>
-							   Modulo educativo de gestion bibliotecaria "EPSILON-biblio"
+							   Modulo educativo de gestion bibliotecaria 
+                                                           
 						</small>
 					</a><!--/.brand-->
 

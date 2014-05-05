@@ -6,8 +6,8 @@ class categoria extends Main
     {
 		if($P['idcategoria']==null)
 		{    
-                    
-			$sql =("insert into categoria values(".$this->max_id("categoria").",:p1,1)");
+                    $id=$this->max_id("categoria");
+			$sql =("insert into categoria values(".$id.",:p1,1)");
 			$stmt =$this->db->prepare($sql);
 			try
 			{
@@ -16,7 +16,7 @@ class categoria extends Main
               $stmt->bindValue(':p1',$P['descripcion'], PDO::PARAM_STR);
                 $stmt->execute();
                 $this->db->commit();
-				$resp = array('rep'=>'1','str'=>'Ok');
+				$resp = array('rep'=>'1','id'=>$id,'categoria'=>$P['descripcion']);
 				return $resp;
 			}
 			catch(PDOException $e) 

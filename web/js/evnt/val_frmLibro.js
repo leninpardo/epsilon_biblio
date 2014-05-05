@@ -56,9 +56,9 @@ $("#emergente").load("index.php?controller=Libro&action=mostrar_categoria", func
 			}); 
 		});	
 });
-$("#add_lector").click(function(e){
+$("#add_categoria").click(function(e){
 e.preventDefault();
-$("#emergente").load("index.php?controller=Lector&action=create", function(){
+$("#emergente").load("index.php?controller=Categoria&action=create_extend", function(){
 			$.blockUI({
 				message: $("#emergente"),
 				css:{
@@ -70,9 +70,24 @@ $("#emergente").load("index.php?controller=Lector&action=create", function(){
 			}); 
 		});	
 });
+
 $("#buscar_editorial").click(function(e){
 e.preventDefault();
 $("#emergente").load("index.php?controller=Libro&action=mostrar_editorial", function(){
+			$.blockUI({
+				message: $("#emergente"),
+				css:{
+					top: '2%',
+					width: '80%',
+					height: '85%',
+					left: '15%'
+				}
+			}); 
+		});	
+});
+$("#add_editorial").click(function(e){
+e.preventDefault();
+$("#emergente").load("index.php?controller=Editorial&action=create_extend", function(){
 			$.blockUI({
 				message: $("#emergente"),
 				css:{
@@ -100,6 +115,21 @@ $("#emergente").load("index.php?controller=Libro&action=mostrar_autor", function
 		});	
 });
 
+$("#add_autor").click(function(e){
+e.preventDefault();
+$("#emergente").load("index.php?controller=Autor&action=create_extend", function(){
+			$.blockUI({
+				message: $("#emergente"),
+				css:{
+					top: '2%',
+					width: '80%',
+					height: '85%',
+					left: '15%'
+				}
+			}); 
+		});	
+});
+
     $(".delete").live('click',function(){
         var i = $(this).parent().parent().index();
         $("#dt_libro tr:eq("+i+")").remove();
@@ -109,7 +139,7 @@ $("#emergente").load("index.php?controller=Libro&action=mostrar_autor", function
 
 $("#agregar_autor").click(function(){
 bval=true;
- bval = bval && $( "#libro").required();
+ bval = bval && $( "#name_autor").required();
 	    
 		if ( bval )
                     {

@@ -35,9 +35,9 @@ return $dia.'-'.$mes.'-'.$anio;
                          </tr>
                          <tr>
                               <td >Año publicacion:</td>
-              <td ><input type='text' size='11' name='fecha_p' id='fecha_p' value="<?php if($obj){echo ($obj->year_edicion);}  ?>"/></td>
+              <td ><input type='text' size='11' name='fecha_p' id='fecha_p' value="<?php echo ($obj->year_edicion); ?>"/></td>
            <td >Ultima publicacion:</td>
-              <td ><input type='text' size='11' name='fecha_u' id='fecha_u' value="<?php if($obj){echo ($obj->year_last_edicion);}  ?>"/></td>
+              <td ><input type='text' size='11' name='fecha_u' id='fecha_u' value="<?php echo ($obj->year_last_edicion);  ?>"/></td>
          
                          </tr>
                          <tr>
@@ -46,10 +46,10 @@ return $dia.'-'.$mes.'-'.$anio;
                             <input type="text" name="categoria" id="categoria" value="<?php $pro = $obj_c->descripcion; echo utf8_encode($pro);?>" size="40" maxlength="100">
 			<input type="hidden" name="idcategoria" id="idcategoria" value="<?php $pro = $obj_c->idcategoria; echo utf8_encode($pro);?>" size="40" maxlength="100">
 			
-			<a title="Buscar Lector" href="#" id="buscar_categoria" class="btn btn-small">
+			<a title="Buscar Categoria" href="#" id="buscar_categoria" class="btn btn-small">
                             <i class="icon-search icon-white"></i>
                             </a>
-			<a title="Agregar Lector" href="#" id="add_categoria"  class="btn btn-small">
+			<a title="Agregar Categoria" href="#" id="add_categoria"  class="btn btn-small">
                             <i class="icon-plus icon-white"></i>
                             </a>
                            
@@ -96,7 +96,12 @@ return $dia.'-'.$mes.'-'.$anio;
                                 <i class="icon-search icon-white "></i>
                                 </button>
                                 </td>
+                                <td>
                                 
+                            <button title="registrar nuevo autor" href="#" id="add_autor" class="btn btn-small">
+                                <i class="icon-plus icon-white "></i>
+                                </button>  
+                                </td>
                                 <td>
                                     <button title="Agregar autor" href="#" id="agregar_autor" class="btn btn-small">
                                         <i class="icon-hand-down icon-white "></i>

@@ -1,7 +1,46 @@
 var band=0;
 $(function()
 { 
-	   //$("#tabs").tabs({ collapsible: true });
+	$("#grabar2").click(function()
+	{ 
+                bval = true;
+	  
+	    bval = bval && $( "#nombres" ).required();
+	    bval = bval && $( "#dni" ).required();
+              bval = bval && $( "#tipo" ).required();
+            if ( bval ) 
+		{ 
+                    str="";
+                   str+='&sexo='+$("#sexo").val();
+                                str+='&idlector='+$("#idlector").val();
+				str+='&tipo='+$("#tipo").val();
+				str+='&nombres='+$("#nombres").val();
+				str+='&dni='+$("#dni").val();
+				str+='&direccion='+$("#direccion").val();
+				str+='&telef='+$("#telef").val();
+				
+				str+='&oper='+$("#oper").val();
+				str+='&estado='+$("#estado").val();
+                  $.get('index.php',"controller=Lector&action=save_extend&"+str,function(data)
+				{
+                                  
+					if(data.rep=="1")
+					{
+						
+						document.getElementById("idlector").value=data.id;
+                                                document.getElementById("lector").value=data.nombre;
+                                                closeWindow();
+					}
+                                        
+                                        if(data.rep=="3")
+					{
+                                            
+						alert(data.msg);
+                                    }
+                                        
+				},'json');   
+                }
+        });
           
 	$("#grabar").click(function()
 	{

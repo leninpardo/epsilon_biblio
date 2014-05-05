@@ -58,6 +58,24 @@ class EditorialController extends Controller
 			window.location='index.php';</script>";
 		}
     }
+    	public function create_extend()
+    {
+		if($_SESSION['insertar']==1)
+		{
+			$data = array();
+			$data['p']=1;
+			$view = new View();
+			$view->setData($data);
+			$view->setTemplate('view/editorial/_frm_extend.php');
+			echo $view->renderPartial();
+		}
+		else
+		{
+			echo 
+			"<script>alert('no tiene permiso para insertar');
+			window.location='index.php';</script>";
+		}
+    }
         
 	public function _edit() 
 	{
